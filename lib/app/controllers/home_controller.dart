@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:todo/app/models/todo_model.dart';
-import 'package:todo/app/repositories/todo_repository.dart';
+import 'package:todo/app/repositories/api_repository.dart';
 
 class HomeController {
   final ApiRepository repository;
