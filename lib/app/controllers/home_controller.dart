@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+
 import 'package:todo/app/models/todo_model.dart';
 import 'package:todo/app/repositories/api_repository.dart';
 
@@ -6,23 +7,45 @@ class HomeController {
   final ApiRepository repository;
   ValueNotifier<bool> isLoading = ValueNotifier(false);
   final ValueNotifier<ApiModel> covid = ValueNotifier(null);
+   List<Countries> listaCountries = [];
 
-  HomeController(this.repository);
+  HomeController(
+    this.repository,
+  );
 
   //List<ApiModel> covidvalue = [];
   //final repository = ApiRepository();
 
 
   Future start() async {
-    toggleLoading();
-    //final teste = await repository.fetchTodos();
-    covid.value = await repository.fetchTodos();
+    showLoading();
+    var teste = await repository.fetchTodos();
+    covid.value = teste;
     print('repo ${covid.value.global.totalConfirmed}');
-    toggleLoading();
+    this.listaCountries = teste.countries;
+    hiddenLoading();
   }
 
-  toggleLoading() {
-    isLoading.value = !isLoading.value;
-    //isLoading.notifyListeners();
+  showLoading() {
+    isLoading.value = true;
+    isLoading.notifyListeners();
+  }
+  hiddenLoading() {
+    isLoading.value = false;
+    isLoading.notifyListeners();
+  }
+
+  sarchCautrins(String value) {
+    print(value);
+    print(listaCountries[0].country);
+    if (value.isNotEmpty) {
+      this.covid.value.countries = listaCountries
+          .where((item) =>
+          item.country.toLowerCase().contains(value.toLowerCase()))
+          .toList();
+    } else {
+    this.covid.value.countries = listaCountries;
+    }
+    this.covid.notifyListeners();
   }
 }
