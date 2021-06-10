@@ -7,7 +7,7 @@ class HomeController {
   final ApiRepository repository;
   ValueNotifier<bool> isLoading = ValueNotifier(false);
   final ValueNotifier<ApiModel> covid = ValueNotifier(null);
-   List<Countries> listaCountries = [];
+  List<Countries> listaCountries = [];
 
   HomeController(
     this.repository,
@@ -15,7 +15,6 @@ class HomeController {
 
   //List<ApiModel> covidvalue = [];
   //final repository = ApiRepository();
-
 
   Future start() async {
     showLoading();
@@ -30,6 +29,7 @@ class HomeController {
     isLoading.value = true;
     isLoading.notifyListeners();
   }
+
   hiddenLoading() {
     isLoading.value = false;
     isLoading.notifyListeners();
@@ -41,10 +41,10 @@ class HomeController {
     if (value.isNotEmpty) {
       this.covid.value.countries = listaCountries
           .where((item) =>
-          item.country.toLowerCase().contains(value.toLowerCase()))
+              item.country.toLowerCase().contains(value.toLowerCase()))
           .toList();
     } else {
-    this.covid.value.countries = listaCountries;
+      this.covid.value.countries = listaCountries;
     }
     this.covid.notifyListeners();
   }

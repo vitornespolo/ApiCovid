@@ -4,7 +4,6 @@ class InfoGlobal extends StatelessWidget {
   Image imagem;
   String variavel;
 
-  
   InfoGlobal({
     Key key,
     this.imagem,

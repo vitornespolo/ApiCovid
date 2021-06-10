@@ -25,7 +25,7 @@ class _HomePageState extends State<HomePage> {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
-          title: Text('List Todo'),
+          title: Text('Api Covid'),
           actions: [
             IconButton(
               icon: Icon(Icons.refresh),
@@ -43,12 +43,10 @@ class _HomePageState extends State<HomePage> {
                   return ValueListenableBuilder(
                     builder: (_, __, ___) {
                       if (controller.isLoading.value) {
-                        return Container(
-                          width: double.infinity,
-                          child: Column(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            crossAxisAlignment: CrossAxisAlignment.center,
-                            children: [CircularProgressIndicator()],
+                        return Center(
+                          child: Text(
+                            'Aguarde Carregar ...',
+                            style: TextStyle(color: Colors.red, fontSize: 16),
                           ),
                         );
                       }
@@ -57,8 +55,16 @@ class _HomePageState extends State<HomePage> {
                           return Column(
                             children: [
                               Column(children: <Widget>[
-                                Text(
-                                    'Dados Globais: ${controller.covid.value.global.date}'),
+                                SizedBox(height: 10),
+                                Row(
+                                  children: [
+                                    Text(
+                                        'Dados Globais: \n ${controller.covid.value.global.date}',
+                                        style: TextStyle(
+                                            fontSize: 16, color: Colors.black)),
+                                  ],
+                                ),
+                                SizedBox(height: 10),
                                 Container(
                                   child: infoglobal(
                                       'Total confirmados: ${controller.covid.value.global.totalConfirmed}',
@@ -82,11 +88,9 @@ class _HomePageState extends State<HomePage> {
                                     onChanged: controller.sarchCautrins,
                                     textInputAction: TextInputAction.go,
                                     decoration: InputDecoration(
-                                      border: new OutlineInputBorder(
-                                        borderSide:
-                                            new BorderSide(color: Colors.teal),
-                                      ),
-                                      hintText: 'Search Country',
+                                      labelText: 'Pesquisar',
+                                      prefixIcon: Icon(Icons.search),
+                                      border: OutlineInputBorder(),
                                     ),
                                     style: TextStyle(
                                       color: Colors.black,
@@ -95,6 +99,7 @@ class _HomePageState extends State<HomePage> {
                                   ),
                                 ),
                               ),
+                              Divider(),
                               Expanded(child: infoCountries()),
                             ],
                           );
@@ -107,41 +112,6 @@ class _HomePageState extends State<HomePage> {
                 },
               ),
             ),
-
-            // Container(
-            //   child: controller.isLoading.value
-            //       ? Text('Caregando Global...')
-            //       : Column(children: <Widget>[
-            //           Container(
-            //             child: infoglobal(
-            //                 'Total confirmados: ${controller.covid.value.global.totalConfirmed}',
-            //                 Image.asset('assets/images/angry.png')),
-            //           ),
-            //           Container(
-            //             child: infoglobal(
-            //                 'Total recuperados: ${controller.covid.value.global.totalRecovered}',
-            //                 Image.asset('assets/images/happy.png')),
-            //           ),
-            //           Container(
-            //             child: infoglobal(
-            //                 'Total mortes: ${controller.covid.value.global.totalDeaths}',
-            //                 Image.asset('assets/images/sad.png')),
-            //           ),
-            //         ]),
-            // ),
-            // SizedBox(height: 15),
-            // TextFormField(
-            //   onChanged: (_) {},
-            //   decoration: InputDecoration(
-            //     labelText: 'Pesquisar',
-            //     prefixIcon: Icon(Icons.search),
-            //     labelStyle: TextStyle(),
-            //     border: OutlineInputBorder(),
-            //   ),
-            // ),
-            // Divider(),
-
-            //infoCountries(),
           ],
         ));
   }
@@ -181,7 +151,7 @@ class _HomePageState extends State<HomePage> {
                 child: Container(
                   child: ListTile(
                     title: Text(
-                        '${controller.covid.value.countries[index].countryCode}'),
+                        '${controller.covid.value.countries[index].country} - ${controller.covid.value.countries[index].countryCode}'),
                     subtitle: Text(
                       '${controller.covid.value.countries[index].date}',
                       style: TextStyle(fontSize: 14),
@@ -192,8 +162,8 @@ class _HomePageState extends State<HomePage> {
                       Navigator.of(context).push<Countries>(
                         MaterialPageRoute(builder: (context) {
                           return DetalhesPage(
-                              countryModel: controller.covid.value
-                                  .countries[index]);
+                              countryModel:
+                                  controller.covid.value.countries[index]);
                         }),
                       );
                     },

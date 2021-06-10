@@ -15,17 +15,31 @@ class _DetalhesPageState extends State<DetalhesPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(),
+      appBar: AppBar(
+        title: Text('Pais Selecionado'),
+      ),
       body: Column(children: <Widget>[
-        Text('Dados Globais: ${widget.countryModel.date}'),
+        SizedBox(height: 10),
+        Row(
+          children: [
+            Text(
+              'Dados do: ${widget.countryModel.country} - ${widget.countryModel.countryCode}'
+              '\n ${widget.countryModel.date}',
+              style: TextStyle(fontSize: 16, color: Colors.black),
+            ),
+          ],
+        ),
+        Divider(),
         Container(
           child: InfoGlobal(
-              variavel: 'Total confirmados: ${widget.countryModel.totalConfirmed}',
+              variavel:
+                  'Total confirmados: ${widget.countryModel.totalConfirmed}',
               imagem: Image.asset('assets/images/angry.png')),
         ),
         Container(
           child: InfoGlobal(
-              variavel: 'Total recuperados: ${widget.countryModel.totalRecovered}',
+              variavel:
+                  'Total recuperados: ${widget.countryModel.totalRecovered}',
               imagem: Image.asset('assets/images/happy.png')),
         ),
         Container(
